@@ -1,0 +1,45 @@
+﻿<div class="col-md-12">
+    <div id="auth-container">
+        <div class="text-center">
+            <h1 ng-show="!vm.registered">Register</h1>
+        </div>
+        <div class="text-danger" ng-show="vm.errorMessage">{{ vm.errorMessage }}</div>
+        <div ng-if="!vm.registered">
+            <form novalidate name="registerForm" ng-submit="vm.register()">
+                <div class="form-group">
+                    <input placeholder="Email" name="email" class="form-control" type="email" ng-click="vm.errorMessage = ''" ng-model="vm.user.email" required />
+                    <span class="text-danger" ng-show="registerForm.email.$error.email">Must be valid email</span>
+                </div>
+                <div class="form-group">
+                    <input placeholder="Username" name="username" class="form-control" type="text" ng-click="vm.errorMessage = ''" ng-model="vm.user.username" required minlength="3" />
+                    <span class="text-danger" ng-show="registerForm.username.$error.minlength">Must be 3 characters or more</span>
+                </div>
+                <div class="form-group">
+                    <input placeholder="Password" name="password" class="form-control" type="password" ng-click="vm.errorMessage = ''" ng-model="vm.user.password" required minlength="6" />
+                    <span class="text-danger" ng-show="registerForm.password.$error.minlength">Must be 6 characters or more</span>
+                </div>
+                <div class="form-group">
+                    <input placeholder="Nickname" name="nickname" class="form-control" type="text" ng-click="vm.errorMessage = ''" ng-model="vm.user.nickname" required minlength="2" />
+                    <span class="text-danger" ng-show="registerForm.nickname.$error.minlength">Must be 2 characters or more</span>
+                </div>
+                <div class="form-group">
+                    <input placeholder="First name" name="firstname" class="form-control" type="text" ng-click="vm.errorMessage = ''" ng-model="vm.user.firstname" required minlength="3" />
+                    <span class="text-danger" ng-show="registerForm.firstname.$error.minlength">Must be 3 characters or more</span>
+                </div>
+                <div class="form-group">
+                    <input placeholder="Last name" name="lastname" class="form-control" type="text" ng-click="vm.errorMessage = ''" ng-model="vm.user.lastname" required minlength="3" />
+                    <span class="text-danger" ng-show="registerForm.lastname.$error.minlength">Must be 3 characters or more</span>
+                </div>
+                <div class="btn-group">
+                    <a href="#/" class="btn btn-primary"><i class="fa fa-arrow-circle-o-left"></i> To login</a>
+                    <input type="submit" value="Register" class="btn btn-success" ng-disabled="registerForm.$invalid" />
+                </div>
+            </form>
+        </div>
+        <div ng-if="vm.registered" class="main-actions">
+            <a class="selectGame" href="/game/new">Create game</a>
+            <a class="selectGame" href="/game/find">Join game</a>
+            <!--<a class="selectGame" ng-bind="playWithComputer">Play with computer</a>-->
+        </div>
+    </div>
+</div>

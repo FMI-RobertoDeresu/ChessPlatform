@@ -1,0 +1,17 @@
+﻿@model int
+@{
+    ViewBag.Title = "Profile";
+}
+
+<link rel="stylesheet" href="~/style/profile.css" />
+
+<div class="row" ng-app="userApp" ng-init="externalId = @Model">
+    <div ng-view></div>
+</div>
+
+@section Scripts {
+    <script src="~/js/angular/apps/userApp.js"></script>
+    <script src="~/js/angular/controllers/user/userController.js"></script>
+    <script src="~/js/angular/services/userService.js"></script>
+    <script src="~/js/angular/services/commonService.js"></script>
+}

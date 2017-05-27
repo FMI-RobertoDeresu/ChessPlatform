@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Play";
+}
+
+<div class="row" ng-app="gameApp">
+    <div ng-view></div>
+</div>
+
+@section Scripts {
+    <script src="~/js/angular/apps/gameApp.js"></script>
+    <script src="~/js/angular/controllers/game/gameController.js"></script>
+    <script src="~/js/angular/controllers/game/playModalController.js"></script>
+    <script src="~/js/angular/apps/userApp.js"></script>
+    <script src="~/js/angular/controllers/game/updateProfilePhotoModalController.js"></script>
+
+    <script src="~/js/angular/services/gameService.js"></script>
+    <script src="~/js/angular/services/userService.js"></script>
+    <script src="~/js/angular/services/commonService.js"></script>
+
+    <script>
+        $(document).on('mouseover', '#profile', function () {
+            $(".change-image").addClass("hover-image");
+        });
+
+        $(document).on('mouseleave', '#profile', function () {
+            $(".change-image").removeClass("hover-image");
+        });
+
+        $(document).on('mouseover', '.change-image', function () {
+            $(".change-image").addClass("hover");
+        });
+
+        $(document).on('mouseleave', '.change-image', function () {
+            $(".change-image").removeClass("hover");
+        });
+    </script>
+}

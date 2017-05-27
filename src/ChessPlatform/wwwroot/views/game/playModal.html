@@ -1,0 +1,23 @@
+﻿<div class="modal-content">
+    <div class="modal-header">
+        <h3 class="modal-title">Insert password</h3>
+    </div>
+
+    <div class="modal-body">
+        <form class="form-horizontal" name="playGameForm">
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="password">Password</label>
+                <div class="col-sm-7">
+                    <input class="form-control" type="password" id="password" name="password" ng-model="password" ng-click="errorMessage = ''" required minlength="1" />
+                    <span class="text-danger" ng-show="playGameForm.password.$error.minlength">Must be 1 character or more</span>
+                </div>
+            </div>
+        </form>
+        <div class="text-danger text-center" ng-show="errorMessage">{{ errorMessage }}</div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="playGameForm.$invalid">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</div>

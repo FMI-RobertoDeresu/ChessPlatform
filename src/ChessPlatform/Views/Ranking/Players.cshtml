@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Leaderboard";
+}
+
+<div ng-app="rankingApp">
+    <div ng-view></div>
+</div>
+
+@section Scripts {
+    <script src="~/js/angular/apps/rankingApp.js"></script>
+    <script src="~/js/angular/controllers/ranking/rankingController.js"></script>
+    <script src="~/js/angular/services/userService.js"></script>
+    <script src="~/js/angular/services/gameService.js"></script>
+    <script src="~/js/angular/services/commonService.js"></script>
+}

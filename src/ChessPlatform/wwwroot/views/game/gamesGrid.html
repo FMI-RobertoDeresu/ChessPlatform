@@ -1,0 +1,53 @@
+<div id="games-grid">
+    <div class="alert text-danger" ng-show="errorMessage">{{ errorMessage }}</div>
+    <div id="side-menu">
+        <div id="profile-image-container">
+            <img src="{{ player.profile.imageSrc }}" id="profile" />
+            <div class="change-image" ng-click="updateProfilePhotoModal()">Change Picture</div>
+        </div>
+        <div id="user-info">
+            <h4>Wins: {{ player.profile.gamesWon }}</h4>
+            <h4>Draws: {{ player.profile.gamesDraw }}</h4>
+            <h4>Losses: {{ player.profile.gamesLosses }}</h4>
+        </div>
+        <hr />
+    </div>
+    <div id="grid">
+        <div id="filters">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input placeholder="Name" class="form-control" type="text" id="name" ng-model="filter.name" ng-change="gameFilter()" required />
+            </div>
+            <div class="form-group">
+                <label for="player">Player</label>
+                <input placeholder="Player" class="form-control" type="text" id="player" ng-model="filter.player" ng-change="gameFilter()" required />
+            </div>
+            <div class="form-group">
+                <label for="points">Points</label>
+                <input placeholder="Points" class="form-control" type="number" id="points" ng-model="filter.points" ng-change="gameFilter()" required />
+            </div>
+        </div>
+        <table ng-table="pagedGames" class="table table-condensed table-bordered table-striped">
+            <tr ng-repeat="game in $data">
+                <td data-title="'Name'" sortable="'gameInfo.name'">{{ game.gameInfo.name }}</td>
+                <td data-title="'Host player'" sortable="'gameInfo.player1'"><a href="/profile/{{game.gameInfo.player1.externalId}}">{{ game.gameInfo.player1.profile.nickname }}</a></td>
+                <td data-title="'Player'" sortable="'gameInfo.player2'"><a href="/profile/{{game.gameInfo.player2.externalId}}">{{ game.gameInfo.player2.profile.nickname }}</a></td>
+                <td data-title="'Min points'" sortable="'gameInfo.minimumNumberOfPoints'">{{ game.gameInfo.minimumNumberOfPoints }}</td>
+                <td data-title="'Max points'" sortable="'gameInfo.maximumNumberOfPoints'">{{ game.gameInfo.maximumNumberOfPoints }}</td>
+                <td data-title="'Created'" sortable="'gameInfo.createdAt'">{{ game.gameInfo.createdAt }}</td>
+                <td data-title="'Started'" sortable="'gameInfo.startedAt'">{{ game.gameInfo.startedAt }}</td>
+                <td data-title="'Ended'" sortable="'gameInfo.endedAt'">{{ game.gameInfo.endedAt }}</td>
+                <td data-title="'Actions'" class="actions">
+                    <div class="btn-group">
+                        <div class="inline" ng-if="(!game.gameInfo.started || game.currentUserIsPlayer) && !game.gameInfo.ended">
+                            <button ng-click="playGame($event)" class="btn btn-success btn-sm" data-game="{{ game.gameInfo.id }}">Play</button>
+                        </div>
+                        <div class="inline" ng-if="game.gameInfo.allowSpectate && (!game.currentUserIsPlayer || game.gameInfo.ended)">
+                            <button ng-click="spectateGame($event)" class="btn btn-primary btn-sm" data-game='{{ game.gameInfo.id }}'>Spectate</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

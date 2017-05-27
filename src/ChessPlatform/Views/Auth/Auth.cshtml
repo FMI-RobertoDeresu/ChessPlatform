@@ -1,0 +1,15 @@
+﻿@{
+    Layout = "_AuthLayout";
+    ViewBag.Title = "Authentication";
+}
+
+<div class="row" ng-app="authApp">
+    <div ng-view></div>
+</div>
+
+@section Scripts
+{
+    <script src="~/js/angular/apps/authApp.js"></script>
+    <script src="~/js/angular/controllers/auth/loginController.js"></script>
+    <script src="~/js/angular/controllers/auth/registerController.js"></script>
+}

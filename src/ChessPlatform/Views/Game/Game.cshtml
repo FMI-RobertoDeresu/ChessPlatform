@@ -1,0 +1,86 @@
+@model ChessPlatform.ViewModels.Game.GameViewModel
+@{
+    ViewBag.Title = string.Format("{0} {1}", Model.CurrentUserIsPlayer ? "Play" : "Watch", Model.GameInfo.Name);
+}
+
+<link rel="stylesheet" type="text/css" href="~/lib/chessboard.js/css/chessboard.min.css" />
+<link rel="stylesheet" type="text/css" href="~/style/chat.css" />
+
+<div class="row" id="game-page">
+    <div class="col-md-9 backgroundTable">
+        <div class="notification-container" style="display:@(Model.GameInfo.Started ? "none" : "block")">
+            <div class="notification-content">
+                <h1 class="notification-message">Game will start soon...</h1>
+            </div>
+        </div>
+
+        <div class="chess-container">
+            <div id="div-chess-board">
+                <div id="board"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 chat" id="game-chat-container">
+        <ul class="messages-list"></ul>
+        <div class="chat-comand">
+            <textarea type="text" class="message-content form-control"></textarea>
+            <button class="send-message btn btn-primary">Send</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/lib/chess.js/chess.js"></script>
+    <script src="~/lib/chessboard.js/js/chessboard.min.js"></script>
+
+    <script src="~/js/jquery/webSocket.js"></script>
+    <script src="~/js/jquery/webSocketService.js"></script>
+    <script src="~/js/jquery/gameService.js"></script>
+    <script src="~/js/jquery/chatService.js"></script>
+
+    <script type="text/javascript">
+        "use strict";
+
+        var gameId = @Html.Raw(Json.Serialize(Model.GameInfo.Id));
+        var gameModel;
+
+        var socketService;
+        var gameService;
+        var chatService;
+
+        var $send =  $("#game-chat-container .send-message");
+        var $messageContent = $("#game-chat-container .message-content");
+
+        $send.prop('disabled', true);
+        $messageContent.val('');
+
+        $.get('/game/getGame', {Id: gameId}, function(response) {
+            gameModel = response;
+
+            socketService = new WebSocketService();
+            gameService = new GameService(socketService, response);
+            chatService = new ChatService(socketService, response.Username);
+
+            socketService.initialize(gameService, chatService);
+            socketService.joinChatAndGameRooms(response.gameInfo.id);
+
+            $send.prop('disabled', false);
+        });
+
+        $messageContent.keyup(function (e) {
+            if (e.which == 13) {
+                $send.click();
+            }
+        });
+
+        $send.on('click', function(e){
+            if ($messageContent.val()){
+                chatService.sendMessage(gameModel.gameInfo.id, gameModel.playerName, $messageContent.val());
+                $messageContent.val('');
+            }
+        });
+
+    </script>
+}

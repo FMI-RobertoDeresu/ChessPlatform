@@ -1,0 +1,16 @@
+﻿#profile-page {
+    position: relative;
+    margin: 50px 10px 0 10%;
+}
+
+    #profile-page #profile-image-container {
+        width: 250px;
+        height: 250px;
+    }
+
+        #profile-page #profile-image-container img#profile {
+            width: 210px;
+            height: auto;
+            padding-top: 20px;
+        }
+

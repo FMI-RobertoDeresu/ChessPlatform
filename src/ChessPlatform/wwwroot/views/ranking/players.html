@@ -1,0 +1,13 @@
+﻿<div id="players-grid">
+    <table ng-table="pagedPlayers" class="table table-condensed table-bordered table-striped">
+        <tr ng-repeat="player in $data">
+            <td data-title="'#'" sortable="'profile.Rank'">{{ player.profile.rank }}</td>
+            <td data-title="'Name'" sortable="'profile.FirstName'"><a href="/profile/{{player.externalId}}">{{ player.profile.firstName + ' ' + player.profile.lastName }}</a></td>
+            <td data-title="'Wons'" sortable="'profile.GamesWon'">{{ player.profile.gamesWon }}</td>
+            <td data-title="'Draws'" sortable="'profile.GamesDraw'">{{ player.profile.gamesDraw }}</td>
+            <td data-title="'Losses'" sortable="'profile.GamesLosses'">{{ player.profile.gamesLosses }}</td>
+            <td data-title="'Total'" sortable="'profile.TotalGames'">{{ player.profile.totalGames }}</td>
+            <td data-title="'Points'">{{ player.profile.points }}</td>
+        </tr>
+    </table>
+</div>

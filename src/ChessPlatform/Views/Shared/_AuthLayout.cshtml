@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link rel="icon" href="~/img/king-white.png">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/lib/font-awsome/css/font-awesome.css" />
+    <link rel="stylesheet" href="~/style/auth.css" />
+</head>
+<body class="login">
+
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/angular/angular.js"></script>
+    <script src="~/lib/angular-route/angular-route.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+
+    @RenderSection("Scripts", false)
+</body>
+</html>

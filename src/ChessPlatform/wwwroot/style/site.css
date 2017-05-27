@@ -1,0 +1,196 @@
+﻿#games-grid table td a, #players-grid table td a, a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+input[type="checkbox"] {
+    position: relative;
+    top: 4px;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.unselectable {
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.inline {
+    display: inline;
+}
+
+.dropdown-menu .divider {
+    margin: 9px 0 9px 0;
+}
+
+/*main*/
+
+div#main {
+    padding-top: 50px;
+}
+
+
+/*footer*/
+
+footer {
+    text-align: center;
+}
+
+/*games grid*/
+
+#games-grid {
+    position: relative;
+    margin-top: 2px;
+    height: calc(100vh - 52px);
+}
+
+    #games-grid #side-menu {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 250px;
+        height: 100%;
+        color: #fff;
+        font-weight: bold;
+        background-color: rgb(34, 34, 34);
+    }
+
+        #games-grid #side-menu h4 {
+            margin-left: 10px;
+        }
+
+        #games-grid #side-menu #profile-image-container {
+            border-bottom: solid 1px #fff;
+        }
+
+        #games-grid #side-menu img#profile {
+            width: 210px;
+            height: auto;
+            margin: 20px;
+        }
+
+        #games-grid #side-menu .change-image {
+            position: relative;
+            width: auto;
+            height: 40px;
+            background-color: rgba(0, 0, 0, 0.62);
+            margin: 20px;
+            z-index: 1000;
+            margin-top: -60px;
+            text-align: center;
+            line-height: 40px;
+            font-weight: 400;
+            color: #C3C3C3;
+            opacity: 0;
+            cursor: pointer;
+            -webkit-transition: all 0.5s;
+            -moz-transition: all 0.5s;
+            -o-transition: all 0.5s;
+            transition: all 0.5s;
+        }
+
+        #games-grid #side-menu .hover-image {
+            opacity: 0.8;
+            -moz-transition: all 0.5s;
+            -o-transition: all 0.5s;
+            -webkit-transition: all 0.5s;
+            transition: all 0.5s;
+        }
+
+        #games-grid #side-menu .hover {
+            opacity: 1;
+            color: #fff;
+        }
+
+    #games-grid #grid {
+        margin-left: 253px;
+        height: calc(100vh - 60px);
+        overflow: scroll;
+        padding: 10px 5px 5px 10px;
+    }
+
+        #games-grid #grid #filters .form-group {
+            margin-bottom: 15px;
+            width: 25%;
+            padding-right: 1%;
+            display: inline-table;
+        }
+
+        #games-grid #grid table tr td, .games-grid table tr th {
+            text-align: center;
+        }
+
+        #games-grid #grid ul.pagination, .games-grid div.ng-table-counts {
+            margin: 0;
+            padding: 0 10px 0 10px;
+        }
+
+        #games-grid #grid table td {
+            height: 42px;
+        }
+
+
+            #games-grid #grid table td.actions {
+                width: 130px;
+                text-align: left;
+            }
+
+/*game*/
+#game-page {
+    background-color: #403E40;
+    background-size: cover;
+    height: calc(100vh - 50px);
+}
+
+    #game-page .chess-container {
+        margin: auto;
+        box-shadow: 0 0 90px 0 #000;
+        height: calc(100vh - 50px);
+    }
+
+    #game-page .backgroundTable {
+        background: url(../img/login-background.jpg) no-repeat;
+        background-size: cover;
+    }
+
+    #game-page .notification-container {
+        position: absolute;
+        display: block;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 10;
+    }
+
+        #game-page .notification-container .notification-content {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            min-width: 100px;
+            width: 50%;
+            -moz-transform: translateX(-50%) translateY(-50%);
+            -ms-transform: translateX(-50%) translateY(-50%);
+            -o-transform: translateX(-50%) translateY(-50%);
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
+        }
+
+            #game-page .notification-container .notification-content .notification-message {
+                font-weight: 800;
+                text-align: center;
+                color: #ffc;
+            }
+
+/*modals*/
+.modal-dialog {
+    margin-top: 100px;
+}

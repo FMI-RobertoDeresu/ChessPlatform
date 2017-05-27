@@ -1,0 +1,18 @@
+﻿@using ChessPlatform.Components
+@model ChessPlatform.ViewModels.Game.NewViewModel
+@{
+    ViewBag.Title = "New game";
+}
+
+<h1>New Game</h1>
+
+@using (Html.BootstrapBeginHorizontalForm("New", "Game"))
+{
+    @Html.BootstrapTextBoxFor(x => x.Name, HtmlExtensionsCommon.InputType.Text)
+    @Html.BootstrapTextBoxFor(x => x.Password, HtmlExtensionsCommon.InputType.Password)
+    @Html.BootstrapTextBoxFor(x => x.MinimumNumberOfPoints, HtmlExtensionsCommon.InputType.Number, new { @min = 0 })
+    @Html.BootstrapTextBoxFor(x => x.MaximumNumberOfPoints, HtmlExtensionsCommon.InputType.Number, new { @min = 0 })
+    @Html.BootstrapCheckBoxFor(x => x.AllowSpectate)
+    @Html.BootstrapCheckBoxFor(x => x.WithComputer)
+    @Html.BootstrapBotton("Create", HtmlExtensionsCommon.ButtonType.Success, HtmlExtensionsCommon.ButtonSize.Default, HtmlExtensionsCommon.ButtonWidth.Full)
+}
