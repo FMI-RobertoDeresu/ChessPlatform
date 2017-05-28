@@ -9,7 +9,6 @@ using ChessPlatform.Services;
 using ChessPlatform.ViewModels.Game;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace ChessPlatform.Controllers
 {
@@ -91,7 +90,7 @@ namespace ChessPlatform.Controllers
                 }
                 catch (Exception exception)
                 {
-                    Logger.LogError("", exception);
+                    Logger.LogError(exception);
                     ModelState.AddModelError("", GenericErrorMessage);
 
                     return View(model);
@@ -118,7 +117,7 @@ namespace ChessPlatform.Controllers
             }
             catch (Exception exception)
             {
-                Logger.LogError("", exception);
+                Logger.LogError(exception);
             }
 
             //change this
@@ -138,7 +137,7 @@ namespace ChessPlatform.Controllers
             }
             catch (Exception exception)
             {
-                Logger.LogError("", exception);
+                Logger.LogError(exception);
             }
 
             return Json(new
@@ -167,7 +166,7 @@ namespace ChessPlatform.Controllers
             }
             catch (Exception exception)
             {
-                Logger.LogError("", exception);
+                Logger.LogError(exception);
             }
 
             return Json(new { Error = true, ErrorMessage = GenericErrorMessage });
@@ -215,7 +214,7 @@ namespace ChessPlatform.Controllers
             }
             catch (Exception exception)
             {
-                Logger.LogError("", exception);
+                Logger.LogError(exception);
             }
 
             return Json(new { Error = true, ErrorMessage = GenericErrorMessage });
@@ -285,7 +284,7 @@ namespace ChessPlatform.Controllers
             }
             catch (Exception exception)
             {
-                Logger.LogError("", exception);
+                Logger.LogError(exception);
             }
 
             return Json(new { Error = true, ErrorMessage = GenericErrorMessage });

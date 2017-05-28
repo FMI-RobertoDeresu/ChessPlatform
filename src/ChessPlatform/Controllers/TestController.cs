@@ -94,7 +94,6 @@ namespace ChessPlatform.Controllers
                         DeleteTestUser();
                     }
                     catch (Exception) { }
-                    ;
 
                     return Json(new { Status = "OK", ErrorMessage = string.Empty });
                 }

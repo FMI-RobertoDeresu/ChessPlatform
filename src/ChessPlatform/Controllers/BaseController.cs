@@ -1,16 +1,16 @@
 ﻿using ChessPlatform.Entities;
+using ChessPlatform.Logging;
 using ChessPlatform.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace ChessPlatform.Controllers
 {
     [Authorize]
     public class BaseController : Controller
     {
-        private ILogger<BaseController> _logger;
+        private IApplicationLogger _logger;
 
         private IUserService _userService;
 
@@ -20,8 +20,8 @@ namespace ChessPlatform.Controllers
 
         public string GenericErrorMessage => "An unexpected error has occured!";
 
-        public ILogger<BaseController> Logger
-            => _logger ?? (_logger = HttpContext.RequestServices.GetService<ILogger<BaseController>>());
+        public IApplicationLogger Logger
+            => _logger ?? (_logger = HttpContext.RequestServices.GetService<IApplicationLogger>());
 
         private IUserService UserService
             => _userService ?? (_userService = HttpContext.RequestServices.GetService<IUserService>());

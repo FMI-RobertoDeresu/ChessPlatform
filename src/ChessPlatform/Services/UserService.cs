@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ChessPlatform.Entities;
+using ChessPlatform.Logging;
 using ChessPlatform.Repositories;
-using Microsoft.Extensions.Logging;
 
 namespace ChessPlatform.Services
 {
@@ -13,9 +13,9 @@ namespace ChessPlatform.Services
         #region Constructor and fields
 
         private readonly IUserRepository _userRepository;
-        private readonly ILogger _logger;
+        private readonly IApplicationLogger _logger;
 
-        public UserService(IUserRepository userRepository, ILogger<UserService> logger)
+        public UserService(IUserRepository userRepository, IApplicationLogger logger)
         {
             _userRepository = userRepository;
             _logger = logger;
@@ -47,7 +47,7 @@ namespace ChessPlatform.Services
             }
             catch (Exception exception)
             {
-                _logger.LogError("", exception);
+                _logger.LogError(exception);
             }
 
             return new Tuple<bool, string>(false, "An unexpected error has occured!");
@@ -62,7 +62,7 @@ namespace ChessPlatform.Services
             }
             catch (Exception exception)
             {
-                _logger.LogError("", exception);
+                _logger.LogError(exception);
             }
         }
 
@@ -75,7 +75,7 @@ namespace ChessPlatform.Services
             }
             catch (Exception exception)
             {
-                _logger.LogError("", exception);
+                _logger.LogError(exception);
             }
         }
 
@@ -98,7 +98,7 @@ namespace ChessPlatform.Services
             }
             catch (Exception exception)
             {
-                _logger.LogError("", exception);
+                _logger.LogError(exception);
             }
 
             return null;
@@ -112,7 +112,7 @@ namespace ChessPlatform.Services
             }
             catch (Exception exception)
             {
-                _logger.LogError("", exception);
+                _logger.LogError(exception);
             }
 
             return null;
@@ -126,7 +126,7 @@ namespace ChessPlatform.Services
             }
             catch (Exception exception)
             {
-                _logger.LogError("", exception);
+                _logger.LogError(exception);
             }
 
             return null;
@@ -140,7 +140,7 @@ namespace ChessPlatform.Services
             }
             catch (Exception exception)
             {
-                _logger.LogError("", exception);
+                _logger.LogError(exception);
             }
 
             return null;
@@ -156,7 +156,7 @@ namespace ChessPlatform.Services
             }
             catch (Exception exception)
             {
-                _logger.LogError("", exception);
+                _logger.LogError(exception);
             }
 
             return null;
@@ -171,7 +171,7 @@ namespace ChessPlatform.Services
             }
             catch (Exception exception)
             {
-                _logger.LogError("", exception);
+                _logger.LogError(exception);
             }
 
             return null;
@@ -186,7 +186,7 @@ namespace ChessPlatform.Services
             }
             catch (Exception exception)
             {
-                _logger.LogError("", exception);
+                _logger.LogError(exception);
             }
 
             return null;
@@ -206,7 +206,7 @@ namespace ChessPlatform.Services
             }
             catch (Exception exception)
             {
-                _logger.LogError("", exception);
+                _logger.LogError(exception);
             }
 
             return null;
@@ -221,7 +221,7 @@ namespace ChessPlatform.Services
             }
             catch (Exception exception)
             {
-                _logger.LogError("", exception);
+                _logger.LogError(exception);
             }
 
             return null;
@@ -242,7 +242,7 @@ namespace ChessPlatform.Services
             }
             catch (Exception exception)
             {
-                _logger.LogError("", exception);
+                _logger.LogError(exception);
             }
 
             return null;

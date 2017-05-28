@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using ChessPlatform.DBContexts;
 using ChessPlatform.Entities;
+using ChessPlatform.Extensions;
+using ChessPlatform.Filters;
+using ChessPlatform.Logging;
 using ChessPlatform.Repositories;
 using ChessPlatform.Services;
 using ChessPlatform.ViewModels.Auth;
@@ -25,7 +28,7 @@ namespace ChessPlatform
 {
     public class Startup
     {
-        public static IConfigurationRoot Configuration;
+        private readonly IConfigurationRoot _configuration;
 
         public Startup(IHostingEnvironment env)
         {
@@ -38,23 +41,32 @@ namespace ChessPlatform
             if (env.IsDevelopment())
                 builder = builder.AddUserSecrets("cheesplatformsecrets");
 
-            Configuration = builder.Build();
+            _configuration = builder.Build();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().AddJsonOptions(
+            //mvc
+            services.AddMvc(
+                    options =>
+                    {
+                        options.Filters.Add(typeof(ApplicationExceptionFilter));
+                        if (bool.Parse(_configuration["app:requestHistoryLoggerEnabled"]))
+                            options.Filters.Add(typeof(RequestHistoryLogFilterAttribute));
+                    })
+                .AddJsonOptions(
                     option =>
                     {
                         option.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                         option.SerializerSettings.Formatting = Formatting.Indented;
                         option.SerializerSettings.Converters.Add(new StringEnumConverter());
                     });
-            services.AddLogging();
 
+            //entity framework
             services.AddDbContext<ChessContext>(
-                setup => setup.UseSqlServer(Configuration["db:default"]));
+                options => options.UseSqlServer(_configuration["db:default"]));
 
+            //identity
             services.AddIdentity<User, IdentityRole>(config =>
                 {
                     config.User.RequireUniqueEmail = true;
@@ -77,32 +89,53 @@ namespace ChessPlatform
                 })
                 .AddEntityFrameworkStores<ChessContext>();
 
-            //Add repositories
-            services.AddScoped<IRepository, Repository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IGameRepository, GameRepository>();
+            //configuration
+            services.AddSingleton(_configuration);
 
-            //Add services
-            services.AddScoped<IUserService, UserService>();
+            //repositories
+            services.AddTransient<IRepository, Repository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IGameRepository, GameRepository>();
+
+            //services
+            services.AddTransient<IUserService, UserService>();
+
+            //loggers
+            services.AddTransient<IApplicationLogger, ApplicationLogger>();
+            services.AddTransient<IRequestHistoryLogger, RequestHistoryLogger>();
         }
 
-        public void Configure(IApplicationBuilder applicationBuilder, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddDebug(LogLevel.Error);
+            //logger
+            app.ConfigureNLog(env, loggerFactory, _configuration["db:default"]);
 
-            applicationBuilder.UseDeveloperExceptionPage();
-            applicationBuilder.UseStaticFiles();
-            applicationBuilder.UseIdentity();
+            //env options
+            if (env.IsDevelopment())
+                app.UseDeveloperExceptionPage();
+            else
+                app.UseExceptionHandler("/error");
 
-            ConfigureWebSockets(applicationBuilder);
-            ConfigureMVC(applicationBuilder);
+            //static files
+            app.UseStaticFiles();
+
+            //web sockets
+            ConfigureWebSockets(app);
+
+            //identity
+            app.UseIdentity();
+
+            //mvc
+            app.UseMvc(config => config.MapRoute("Default", "{controller=Auth}/{action=Authenticate}/{id?}"));
+
+            //mappings
             RegisterMappings();
         }
 
-        public void ConfigureWebSockets(IApplicationBuilder applicationBuilder)
+        public void ConfigureWebSockets(IApplicationBuilder app)
         {
-            applicationBuilder.UseWebSockets();
-            applicationBuilder.Use(async (http, next) =>
+            app.UseWebSockets();
+            app.Use(async (http, next) =>
             {
                 if (http.WebSockets.IsWebSocketRequest)
                 {
@@ -117,18 +150,6 @@ namespace ChessPlatform
                 {
                     await next();
                 }
-            });
-        }
-
-        public void ConfigureMVC(IApplicationBuilder applicationBuilder)
-        {
-            applicationBuilder.UseMvc(config =>
-            {
-                config.MapRoute(
-                    "Default",
-                    "{controller}/{action}/{id?}",
-                    new { controller = "Auth", action = "Authenticate" }
-                );
             });
         }
 

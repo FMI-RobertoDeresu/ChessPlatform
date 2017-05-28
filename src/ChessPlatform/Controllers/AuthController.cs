@@ -2,13 +2,13 @@
 using System.Linq;
 using AutoMapper;
 using ChessPlatform.Entities;
+using ChessPlatform.Logging;
 using ChessPlatform.Services;
 using ChessPlatform.ViewModels.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace ChessPlatform.Controllers
 {
@@ -16,10 +16,10 @@ namespace ChessPlatform.Controllers
     {
         private readonly IUserService _userService;
         private readonly SignInManager<User> _singInManager;
-        private readonly ILogger<BaseController> _logger;
+        private readonly IApplicationLogger _logger;
         private readonly IHostingEnvironment _hotingEnvironment;
 
-        public AuthController(IUserService userService, SignInManager<User> signInManager, ILogger<BaseController> logger,
+        public AuthController(IUserService userService, SignInManager<User> signInManager, IApplicationLogger logger,
             IHostingEnvironment hotingEnvironment)
         {
             _userService = userService;
@@ -70,13 +70,13 @@ namespace ChessPlatform.Controllers
                         }
                         catch (Exception exception)
                         {
-                            _logger.LogError("Login after register", exception);
+                            _logger.LogError(exception);
                         }
                     }
                 }
                 catch (Exception exception)
                 {
-                    _logger.LogError("User register error", exception);
+                    _logger.LogError(exception);
 
                     return Json(new { registered = false, error = "An error has occured!" });
                 }
@@ -110,7 +110,7 @@ namespace ChessPlatform.Controllers
                 }
                 catch (Exception exception)
                 {
-                    _logger.LogError("", exception);
+                    _logger.LogError(exception);
                     ModelState.AddModelError("", "An unexpected error has occurred.");
                 }
             }

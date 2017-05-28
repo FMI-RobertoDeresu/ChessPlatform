@@ -5,7 +5,6 @@ using AutoMapper;
 using ChessPlatform.Services;
 using ChessPlatform.ViewModels.User;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace ChessPlatform.Controllers
 {
@@ -33,7 +32,7 @@ namespace ChessPlatform.Controllers
             }
             catch (Exception exception)
             {
-                Logger.LogError("", exception);
+                Logger.LogError(exception);
             }
 
             return Json(new { Error = true, ErrorMessage = GenericErrorMessage });
@@ -48,7 +47,7 @@ namespace ChessPlatform.Controllers
             }
             catch (Exception exception)
             {
-                Logger.LogError("", exception);
+                Logger.LogError(exception);
             }
 
             return Json(new { Error = true, ErrorMessage = GenericErrorMessage });
@@ -67,7 +66,7 @@ namespace ChessPlatform.Controllers
             }
             catch (Exception exception)
             {
-                Logger.LogError("", exception);
+                Logger.LogError(exception);
             }
 
             return Json(new { Error = true, ErrorMessage = GenericErrorMessage });
@@ -105,7 +104,7 @@ namespace ChessPlatform.Controllers
             }
             catch (Exception exception)
             {
-                Logger.LogError("", exception);
+                Logger.LogError(exception);
 
                 return Json(new { error = true, errorMessage = GenericErrorMessage });
             }

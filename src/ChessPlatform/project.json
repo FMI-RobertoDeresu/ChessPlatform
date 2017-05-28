@@ -29,6 +29,7 @@
       "version": "1.0.0",
       "type": "platform"
     },
+    "NLog.Web.AspNetCore": "4.3.1",
     "System.Diagnostics.Process": "4.3.0",
     "System.Reflection.Extensions": "4.3.0"
   },
