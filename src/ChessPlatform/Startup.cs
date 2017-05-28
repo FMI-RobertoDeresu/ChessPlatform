@@ -48,8 +48,10 @@ namespace ChessPlatform
             services.AddMvc(
                     options =>
                     {
-                        options.Filters.Add(typeof(ApplicationExceptionFilter));
-                        if (bool.Parse(_configuration["app:requestHistoryLoggerEnabled"]))
+                        if (bool.Parse(_configuration["app:applicationExceptionFilterEnabled"]))
+                            options.Filters.Add(typeof(ApplicationExceptionFilter));
+
+                        if (bool.Parse(_configuration["app:requestHistoryLogFilterEnabled"]))
                             options.Filters.Add(typeof(RequestHistoryLogFilterAttribute));
                     })
                 .AddJsonOptions(

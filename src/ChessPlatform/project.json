@@ -48,6 +48,8 @@
       "Views",
       "Areas/**/Views",
       "appsettings.json",
+      "nlog.config",
+      "Stockfish/stockfish7.exe",
       "web.config"
     ]
   },

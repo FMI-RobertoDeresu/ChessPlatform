@@ -1,3 +1,3 @@
 # ChessPlatform
 Proiect la metode de dezvoltare software, laborator, FMI anul 2.
-http://chessplatform.azurewebsites.net
+Demo http://www.chess.robertoderesu.com sau http://chessplatform.azurewebsites.net
