@@ -27,14 +27,16 @@ namespace ChessPlatform
     {
         public static IConfigurationRoot Configuration;
 
-        public Startup(IHostingEnvironment appEnv)
+        public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(appEnv.WebRootPath)
+                .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", true, true)
-                .AddJsonFile($"appsettings.{appEnv.EnvironmentName}.json", true)
-                .AddUserSecrets("cheesplatformsecrets")
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true)
                 .AddEnvironmentVariables();
+
+            if (env.IsDevelopment())
+                builder = builder.AddUserSecrets("cheesplatformsecrets");
 
             Configuration = builder.Build();
         }
