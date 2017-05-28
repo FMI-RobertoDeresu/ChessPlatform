@@ -120,7 +120,8 @@ namespace ChessPlatform
             app.UseStaticFiles();
 
             //web sockets
-            ConfigureWebSockets(app);
+            app.UseWebSockets();
+            app.UseChessWebSocket();
 
             //identity
             app.UseIdentity();
@@ -130,27 +131,6 @@ namespace ChessPlatform
 
             //mappings
             RegisterMappings();
-        }
-
-        public void ConfigureWebSockets(IApplicationBuilder app)
-        {
-            app.UseWebSockets();
-            app.Use(async (http, next) =>
-            {
-                if (http.WebSockets.IsWebSocketRequest)
-                {
-                    var webSocket = await http.WebSockets.AcceptWebSocketAsync();
-
-                    if (webSocket != null && webSocket.State == WebSocketState.Open)
-                    {
-                        await SocketListener.Handle(webSocket);
-                    }
-                }
-                else
-                {
-                    await next();
-                }
-            });
         }
 
         public void RegisterMappings()

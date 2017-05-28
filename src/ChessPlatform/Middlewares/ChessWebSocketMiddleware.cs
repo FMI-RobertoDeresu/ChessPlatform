@@ -1,6 +1,7 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Http;
+﻿using System.Net.WebSockets;
+using System.Threading.Tasks;
+using ChessPlatform.WebSockets;
+using Microsoft.AspNetCore.Http;
 
 namespace ChessPlatform.Middlewares
 {
@@ -13,9 +14,18 @@ namespace ChessPlatform.Middlewares
             _next = next;
         }
 
-        public Task Invoke(HttpContext httpContext)
+        public async Task Invoke(HttpContext httpContext)
         {
-            return _next(httpContext);
+            if (httpContext.WebSockets.IsWebSocketRequest)
+            {
+                var webSocket = await httpContext.WebSockets.AcceptWebSocketAsync();
+                if (webSocket != null && webSocket.State == WebSocketState.Open)
+                    await SocketListener.Handle(webSocket);
+            }
+            else
+            {
+                await _next(httpContext);
+            }
         }
     }
 }
