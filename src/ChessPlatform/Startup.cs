@@ -24,7 +24,7 @@ namespace ChessPlatform
 {
     public class Startup
     {
-        private readonly IConfigurationRoot _configuration;
+        private IConfigurationRoot Configuration { get; }
 
         public Startup(IHostingEnvironment env)
         {
@@ -37,7 +37,7 @@ namespace ChessPlatform
             if (env.IsDevelopment())
                 builder = builder.AddUserSecrets("cheesplatformsecrets");
 
-            _configuration = builder.Build();
+            Configuration = builder.Build();
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -51,10 +51,10 @@ namespace ChessPlatform
                     {
                         options.Filters.Add(new RequireHttpsAttribute { Permanent = true });
 
-                        if (bool.Parse(_configuration["app:applicationExceptionFilterEnabled"]))
+                        if (bool.Parse(Configuration["app:applicationExceptionFilterEnabled"]))
                             options.Filters.Add(typeof(ApplicationExceptionFilter));
 
-                        if (bool.Parse(_configuration["app:requestHistoryLogFilterEnabled"]))
+                        if (bool.Parse(Configuration["app:requestHistoryLogFilterEnabled"]))
                             options.Filters.Add(typeof(RequestHistoryLogFilterAttribute));
                     })
                 .AddJsonOptions(
@@ -67,7 +67,7 @@ namespace ChessPlatform
 
             //entity framework
             services.AddDbContext<ChessContext>(
-                options => options.UseSqlServer(_configuration["db:default"]));
+                options => options.UseSqlServer(Configuration["db:default"]));
 
             //identity
             services.AddIdentity<User, IdentityRole>(config =>
@@ -93,7 +93,7 @@ namespace ChessPlatform
                 .AddEntityFrameworkStores<ChessContext>();
 
             //configuration
-            services.AddSingleton(_configuration);
+            services.AddSingleton(Configuration);
 
             //repositories
             services.AddTransient<IRepository, Repository>();
@@ -111,7 +111,7 @@ namespace ChessPlatform
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             //logger
-            app.ConfigureNLog(env, loggerFactory, _configuration["db:default"]);
+            app.ConfigureNLog(env, loggerFactory, Configuration["db:default"]);
 
             //env options
             if (env.IsDevelopment())
