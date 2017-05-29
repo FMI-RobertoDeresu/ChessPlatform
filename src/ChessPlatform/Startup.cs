@@ -49,7 +49,8 @@ namespace ChessPlatform
             services.AddMvc(
                     options =>
                     {
-                        options.Filters.Add(new RequireHttpsAttribute { Permanent = true });
+                        if (bool.Parse(Configuration["app:requireHttpsFilterEnabled"]))
+                            options.Filters.Add(new RequireHttpsAttribute { Permanent = true });
 
                         if (bool.Parse(Configuration["app:applicationExceptionFilterEnabled"]))
                             options.Filters.Add(typeof(ApplicationExceptionFilter));
