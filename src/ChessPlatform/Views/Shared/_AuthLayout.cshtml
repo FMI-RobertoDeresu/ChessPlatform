@@ -1,22 +1,33 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8"/>
+    <meta name="keywords" content="Chess, Platform">
+    <meta name="description" content="Chess platform where you can play chess with friends or with computer. You can also watch others play.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="robots" content="noarchive">
+
     <title>@ViewBag.Title</title>
-    <link rel="icon" href="~/img/king-white.png">
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="~/lib/font-awsome/css/font-awesome.css" />
-    <link rel="stylesheet" href="~/style/auth.css" />
+    <link asp-append-version="true" rel="icon" href="~/img/king-white.png">
+
+    <environment names="development">
+        <link asp-append-version="true" rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
+        <link asp-append-version="true" rel="stylesheet" href="~/lib/font-awsome/css/font-awesome.css"/>
+        <link asp-append-version="true" rel="stylesheet" href="~/style/auth.css"/>
+    </environment>
+    <environment Names="staging,production">
+        <link asp-append-version="true" rel="stylesheet" href="~/style/site.anonymous.min.css"/>
+    </environment>
 </head>
 <body class="login">
-
     <div class="container-fluid">
         @RenderBody()
     </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/angular/angular.js"></script>
-    <script src="~/lib/angular-route/angular-route.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script asp-append-version="true" src="~/lib/jquery/dist/jquery.js"></script>
+    <script asp-append-version="true" src="~/lib/angular/angular.js"></script>
+    <script asp-append-version="true" src="~/lib/angular-route/angular-route.js"></script>
+    <script asp-append-version="true" src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
     @RenderSection("Scripts", false)
 </body>

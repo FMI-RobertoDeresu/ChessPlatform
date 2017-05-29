@@ -1,0 +1,57 @@
+﻿[
+  {
+    "outputFileName": "wwwroot/style/site.anonymous.min.css",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
+      "wwwroot/lib/font-awsome/css/font-awesome.min.css",
+      "wwwroot/style/auth.css"
+    ],
+    "minify": {
+      "enabled": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/style/site.min.css",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
+      "wwwroot/lib/font-awsome/css/font-awesome.min.css",
+      "wwwroot/lib/bootswatch/cosmo/bootstrap.min.css",
+      "wwwroot/lib/ng-table/dist/ng-table.min.css",
+      "wwwroot/style/site.css"
+    ],
+    "minify": {
+      "enabled": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/site.anonymous.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery/dist/jquery.min.js",
+      "wwwroot/lib/angular/angular.min.js",
+      "wwwroot/lib/angular-route/angular-route.min.js",
+      "wwwroot/lib/bootstrap/dist/js/bootstrap.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/site.min.js",
+    "inputFiles": [
+      "wwwroot/lib/underscore/underscore-min.js",
+      "wwwroot/lib/lodash/dist/lodash.min.js",
+      "wwwroot/lib/jquery/dist/jquery.min.js",
+      "wwwroot/lib/bootstrap/dist/js/bootstrap.min.js",
+      "wwwroot/lib/angular/angular.min.js",
+      "wwwroot/lib/angular-route/angular-route.min.js",
+      "wwwroot/lib/angular-animate/angular-animate.min.js",
+      "wwwroot/js/lib/angular-table.js",
+      "wwwroot/js/lib/angular-ui.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  }
+]
