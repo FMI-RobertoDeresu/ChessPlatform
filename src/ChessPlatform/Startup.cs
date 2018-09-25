@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿using System;
 using AutoMapper;
 using ChessPlatform.DBContexts;
 using ChessPlatform.Entities;
@@ -7,10 +7,9 @@ using ChessPlatform.Filters;
 using ChessPlatform.Logging;
 using ChessPlatform.Repositories;
 using ChessPlatform.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,8 +23,6 @@ namespace ChessPlatform
 {
     public class Startup
     {
-        private IConfigurationRoot Configuration { get; }
-
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -39,6 +36,8 @@ namespace ChessPlatform
 
             Configuration = builder.Build();
         }
+
+        private IConfigurationRoot Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -79,19 +78,17 @@ namespace ChessPlatform
                     config.Password.RequireUppercase = false;
                     config.Password.RequireDigit = false;
                     config.Password.RequireNonAlphanumeric = false;
-
-                    config.Cookies.ApplicationCookie.LoginPath = "/Auth/Authenticate";
-                    config.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents
-                    {
-                        OnRedirectToLogin = x =>
-                        {
-                            x.Response.Redirect(x.RedirectUri);
-
-                            return Task.FromResult(0);
-                        }
-                    };
                 })
                 .AddEntityFrameworkStores<ChessContext>();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/auth/authenticate";
+                options.LogoutPath = "/auth/logout";
+                options.SlidingExpiration = true;
+                options.Cookie.Name = "_ChessPlatformAuth";
+                options.Cookie.Expiration = TimeSpan.FromDays(10);
+            });
 
             //configuration
             services.AddSingleton(Configuration);
@@ -127,8 +124,8 @@ namespace ChessPlatform
             app.UseWebSockets();
             app.UseChessWebSocket();
 
-            //identity
-            app.UseIdentity();
+            // auth
+            app.UseAuthentication();
 
             //mvc
             app.UseMvc(config => config.MapRoute("Default", "{controller=Auth}/{action=Authenticate}/{id?}"));

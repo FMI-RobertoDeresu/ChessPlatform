@@ -37,8 +37,8 @@
             </form>
         </div>
         <div ng-if="vm.registered" class="main-actions">
-            <a class="selectGame" href="/game/new">Create game</a>
-            <a class="selectGame" href="/game/find">Join game</a>
+            <a class="selectGame" href="{{vm.defaultUrl}}game/new">Create game</a>
+            <a class="selectGame" href="{{vm.defaultUrl}}game/find">Join game</a>
             <!--<a class="selectGame" ng-bind="playWithComputer">Play with computer</a>-->
         </div>
     </div>

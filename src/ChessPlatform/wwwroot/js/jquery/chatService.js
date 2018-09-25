@@ -3,6 +3,7 @@
 var ChatService = function (webSocketService, name) {
     var socketService = webSocketService;
     var name = name;
+    const defaultUrl = document.getElementById("default-url").value;
 
     var $chat = $("#game-chat-container");
     var $messagesList = $chat.find(".messages-list");
@@ -35,7 +36,7 @@ var ChatService = function (webSocketService, name) {
         message.push("<div>")
 
         if (myMessage) {
-            message.push("<img src='/img/sending-message.gif'/>");
+            message.push(`<img src='${defaultUrl}img/sending-message.gif'/>`);
         }
 
         message.push("<span class='content'>" + content + "</span>");

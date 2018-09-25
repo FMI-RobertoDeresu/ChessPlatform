@@ -1,18 +1,23 @@
 ﻿"use strict";
 
-angular.module("authApp", ["ngRoute"])
-    .config(function ($routeProvider) {
-        $routeProvider.when("/", {
-            controller: "loginController",
-            controllerAs: "vm",
-            templateUrl: "/views/auth/login.html"
-        });
+(function() {
+    const defaultUrl = document.getElementById("default-url").value;
 
-        $routeProvider.when("/register", {
-            controller: "registerController",
-            controllerAs: "vm",
-            templateUrl: "/views/auth/register.html"
-        });
+    angular.module("authApp", ["ngRoute"])
+        .constant("DEFAULT_URL", defaultUrl)
+        .config(function($routeProvider) {
+            $routeProvider.when("/", {
+                controller: "loginController",
+                controllerAs: "vm",
+                templateUrl: `${defaultUrl}views/auth/login.html`
+            });
 
-        $routeProvider.otherwise({ redirecTo: "/" });
-    });
+            $routeProvider.when("/register", {
+                controller: "registerController",
+                controllerAs: "vm",
+                templateUrl: `${defaultUrl}views/auth/register.html`
+            });
+
+            $routeProvider.otherwise({ redirecTo: "/" });
+        });
+})();

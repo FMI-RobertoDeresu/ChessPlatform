@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using ChessPlatform.Entities;
 using ChessPlatform.Logging;
@@ -12,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChessPlatform.Controllers
 {
-    public class AuthController : Controller
+    public class AuthController : BaseController
     {
         private readonly IUserService _userService;
         private readonly SignInManager<User> _singInManager;
@@ -28,23 +29,22 @@ namespace ChessPlatform.Controllers
             _hotingEnvironment = hotingEnvironment;
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public IActionResult Authenticate()
         {
             if (User.Identity.IsAuthenticated)
-            {
                 return RedirectToAction("Find", "Game");
-            }
 
             return View("Auth");
         }
 
         [HttpPost]
-        public IActionResult Register([FromBody] RegisterViewModel model)
+        [AllowAnonymous]
+        public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
         {
             if (model.Username.Length < 3)
-            {
                 ModelState.AddModelError("Username", "Username must have minimum 3 characters");
-            }
 
             if (ModelState.IsValid)
             {
@@ -56,17 +56,13 @@ namespace ChessPlatform.Controllers
                     if (result.Item1 == false)
                     {
                         if (!string.IsNullOrWhiteSpace(result.Item2))
-                        {
                             return Json(new { registered = false, error = result.Item2 });
-                        }
                     }
                     else
                     {
                         try
                         {
-                            var signIn = _singInManager.PasswordSignInAsync(model.Username, model.Password, true, false);
-
-                            signIn.Wait();
+                            await _singInManager.PasswordSignInAsync(model.Username, model.Password, true, false);
                         }
                         catch (Exception exception)
                         {
@@ -84,28 +80,29 @@ namespace ChessPlatform.Controllers
                 return Json(new { registered = true });
             }
 
-            return
-                Json(
-                    new
-                    {
-                        registered = false,
-                        error =
-                        ModelState.FirstOrDefault(x => x.Value.Errors.Any()).Value.Errors.FirstOrDefault().ErrorMessage
-                    });
+            var errorMessage = ModelState.FirstOrDefault(x => x.Value.Errors.Any()).Value.Errors.FirstOrDefault()?.ErrorMessage;
+            var response = new
+            {
+                registered = false,
+                error =
+                errorMessage
+            };
+
+            return Json(response);
         }
 
-        public IActionResult Login([FromBody] LoginViewModel model)
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var signIn = _singInManager.PasswordSignInAsync(model.Username, model.Password, true, false);
-
                 try
                 {
-                    if (signIn.Result.Succeeded)
-                    {
+                    var signIn = await _singInManager.PasswordSignInAsync(model.Username, model.Password, true, false);
+                    if (signIn.Succeeded)
                         return Json(new { authenticated = true });
-                    }
+
                     ModelState.AddModelError("", "Username or password incorrect.");
                 }
                 catch (Exception exception)
@@ -115,21 +112,21 @@ namespace ChessPlatform.Controllers
                 }
             }
 
-            return
-                Json(
-                    new
-                    {
-                        authenticated = false,
-                        error = ModelState.FirstOrDefault(x => x.Value.Errors.Any()).Value.Errors.FirstOrDefault().ErrorMessage
-                    });
+            var errorMessage = ModelState.FirstOrDefault(x => x.Value.Errors.Any()).Value.Errors.FirstOrDefault()?.ErrorMessage;
+            var response = new
+            {
+                authenticated = false,
+                error = errorMessage
+            };
+
+            return Json(response);
         }
 
+        [HttpGet]
         [Authorize]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            var signOut = _singInManager.SignOutAsync();
-
-            signOut.Wait();
+            await _singInManager.SignOutAsync();
 
             return RedirectToAction("Authenticate");
         }

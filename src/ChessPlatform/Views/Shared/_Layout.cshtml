@@ -25,6 +25,7 @@
     @Html.Partial("_Navbar")
 
     <div id="main" class="unselectable container-fluid">
+        <input type="hidden" id="default-url" value="@Url.Content("~/")" />
         @RenderBody()
     </div>
 

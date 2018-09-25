@@ -1,11 +1,16 @@
 ﻿"use strict";
 
-angular.module("userApp", ["ngRoute", "userServices", "commonServices"])
-    .config(function ($routeProvider) {
-        $routeProvider.when("/", {
-            controller: "userController",
-            templateUrl: "/views/user/profile.html"
-        });
+(function() {
+    const defaultUrl = document.getElementById("default-url").value;
 
-        $routeProvider.otherwise({ redirectTo: "/" });
-    });
+    angular.module("userApp", ["ngRoute", "userServices", "commonServices"])
+        .constant("DEFAULT_URL", defaultUrl)
+        .config(function($routeProvider) {
+            $routeProvider.when("/", {
+                controller: "userController",
+                templateUrl: `${defaultUrl}views/user/profile.html`
+            });
+
+            $routeProvider.otherwise({ redirectTo: "/" });
+        });
+})();

@@ -56,7 +56,7 @@
         $send.prop('disabled', true);
         $messageContent.val('');
 
-        $.get('/game/getGame', {Id: gameId}, function(response) {
+        $.get('@Url.Action("GetGame","Game")', {Id: gameId}, function(response) {
             gameModel = response;
 
             socketService = new WebSocketService();

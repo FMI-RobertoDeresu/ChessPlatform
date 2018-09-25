@@ -1,32 +1,36 @@
 ﻿"use strict";
 
-angular.module("authApp")
-    .controller("loginController", loginController);
+(function() {
+    angular.module("authApp")
+        .controller("loginController", loginController);
 
-function loginController($http, $window) {
-    var vm = this;
+    function loginController($http, $window, DEFAULT_URL) {
+        var vm = this;
 
-    vm.user = {};
-    vm.errorMessage = null;
-    vm.isBusy = true;
-    vm.loggedIn = false;
+        vm.defaultUrl = DEFAULT_URL;
 
-    vm.login = function Login() {
+        vm.user = {};
         vm.errorMessage = null;
         vm.isBusy = true;
+        vm.loggedIn = false;
 
-        $http.post('/auth/login', vm.user)
-            .then(function (response) {
-                if (response.data.authenticated == true) {
-                    vm.loggedIn = true
-                }
-                else {
-                    vm.errorMessage = response.data.error;
-                }
-            }, function (error) { })
-            .finally(function () {
-                vm.user = {};
-                vm.isBusy = false;
-            });
-    };
-};
+        vm.login = function Login() {
+            vm.errorMessage = null;
+            vm.isBusy = true;
+
+            $http.post(`${DEFAULT_URL}auth/login`, vm.user)
+                .then(function(response) {
+                    if (response.data.authenticated == true) {
+                        vm.loggedIn = true;
+                    }
+                    else {
+                        vm.errorMessage = response.data.error;
+                    }
+                }, function(error) {})
+                .finally(function() {
+                    vm.user = {};
+                    vm.isBusy = false;
+                });
+        };
+    }
+})();

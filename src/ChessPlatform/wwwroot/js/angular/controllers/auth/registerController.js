@@ -1,29 +1,33 @@
 ﻿"use strict";
 
-angular.module("authApp")
-    .controller("registerController", registerController);
+(function() {
+    angular.module("authApp")
+        .controller("registerController", registerController);
 
-function registerController($http, $window) {
-    var vm = this;
+    function registerController($http, $window, DEFAULT_URL) {
+        var vm = this;
 
-    vm.user = {};
-    vm.errorMessage = null;
+        vm.defaultUrl = DEFAULT_URL;
 
-    vm.register = function register() {
+        vm.user = {};
         vm.errorMessage = null;
-        vm.isBusy = true;
 
-        $http.post('/auth/register', vm.user)
-            .then(function (response) {
-                if (response.data.registered == true) {
-                    vm.registered = true;
-                }
-                else {
-                    vm.errorMessage = response.data.error;
-                }
-            }, function (error) { })
-            .finally(function () {
-                vm.isBusy = false;
-            });
+        vm.register = function register() {
+            vm.errorMessage = null;
+            vm.isBusy = true;
+
+            $http.post(`${DEFAULT_URL}auth/register`, vm.user)
+                .then(function(response) {
+                    if (response.data.registered == true) {
+                        vm.registered = true;
+                    }
+                    else {
+                        vm.errorMessage = response.data.error;
+                    }
+                }, function(error) {})
+                .finally(function() {
+                    vm.isBusy = false;
+                });
+        };
     };
-};
+})();

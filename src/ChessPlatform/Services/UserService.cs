@@ -38,9 +38,7 @@ namespace ChessPlatform.Services
                     var identityResult = _userRepository.Add(user, password);
 
                     if (identityResult.Result.Succeeded == false)
-                    {
-                        return new Tuple<bool, string>(false, identityResult.Result.Errors.FirstOrDefault().Description);
-                    }
+                        return new Tuple<bool, string>(false, identityResult.Result.Errors.FirstOrDefault()?.Description);
 
                     return new Tuple<bool, string>(true, "");
                 }
@@ -198,7 +196,7 @@ namespace ChessPlatform.Services
             try
             {
                 IList<User> users = GetAllWithProfileAndRank().ToList();
-                var user = users.Where(x => x.ExternalId == externalId).FirstOrDefault();
+                var user = users.FirstOrDefault(x => x.ExternalId == externalId);
 
                 user.Profile.Rank = users.IndexOf(user) + 1;
 

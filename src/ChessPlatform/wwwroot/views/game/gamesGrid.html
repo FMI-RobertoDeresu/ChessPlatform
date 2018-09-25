@@ -30,8 +30,8 @@
         <table ng-table="pagedGames" class="table table-condensed table-bordered table-striped">
             <tr ng-repeat="game in $data">
                 <td data-title="'Name'" sortable="'gameInfo.name'">{{ game.gameInfo.name }}</td>
-                <td data-title="'Host player'" sortable="'gameInfo.player1'"><a href="/profile/{{game.gameInfo.player1.externalId}}">{{ game.gameInfo.player1.profile.nickname }}</a></td>
-                <td data-title="'Player'" sortable="'gameInfo.player2'"><a href="/profile/{{game.gameInfo.player2.externalId}}">{{ game.gameInfo.player2.profile.nickname }}</a></td>
+                <td data-title="'Host player'" sortable="'gameInfo.player1'"><a href="{{defaultUrl}}profile/{{game.gameInfo.player1.externalId}}">{{ game.gameInfo.player1.profile.nickname }}</a></td>
+                <td data-title="'Player'" sortable="'gameInfo.player2'"><a href="{{defaultUrl}}profile/{{game.gameInfo.player2.externalId}}">{{ game.gameInfo.player2.profile.nickname }}</a></td>
                 <td data-title="'Min points'" sortable="'gameInfo.minimumNumberOfPoints'">{{ game.gameInfo.minimumNumberOfPoints }}</td>
                 <td data-title="'Max points'" sortable="'gameInfo.maximumNumberOfPoints'">{{ game.gameInfo.maximumNumberOfPoints }}</td>
                 <td data-title="'Created'" sortable="'gameInfo.createdAt'">{{ game.gameInfo.createdAt }}</td>

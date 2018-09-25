@@ -1,11 +1,17 @@
 "use strict";
 
-angular.module("gameApp", ["ngRoute", 'ngAnimate', 'ui.bootstrap', "ngTable", "gameServices", "userServices", "commonServices"])
-    .config(function ($routeProvider) {
-        $routeProvider.when("/", {
-            controller: "gameController",
-            templateUrl: "/views/game/gamesGrid.html"
-        });
+(function() {
+    const defaultUrl = document.getElementById("default-url").value;
 
-        $routeProvider.otherwise({ redirectTo: "/" });
-    });
+    angular.module("gameApp",
+            ["ngRoute", "ngAnimate", "ui.bootstrap", "ngTable", "gameServices", "userServices", "commonServices"])
+        .constant("DEFAULT_URL", defaultUrl)
+        .config(function($routeProvider) {
+            $routeProvider.when("/", {
+                controller: "gameController",
+                templateUrl: `${defaultUrl}views/game/gamesGrid.html`
+            });
+
+            $routeProvider.otherwise({ redirectTo: "/" });
+        });
+})();
